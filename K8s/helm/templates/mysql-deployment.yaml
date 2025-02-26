@@ -19,7 +19,7 @@ spec:
       {{ end }}
       containers:
       - name: mysql
-        image: mysql-custom-istana:latest
+        image: dhanushnadar/mysql-istana:latest
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         # added for Istio
         securityContext:

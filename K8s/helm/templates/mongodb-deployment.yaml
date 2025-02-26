@@ -19,7 +19,7 @@ spec:
       {{ end }}
       containers:
       - name: mongodb
-        image: custom-mongo-istana:latest
+        image: dhanushnadar/mongo-istana:latest
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: 27017
