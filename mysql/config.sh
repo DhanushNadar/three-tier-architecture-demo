@@ -2,18 +2,27 @@
 
 DIR="/etc/mysql"
 
-FILE=$(fgrep -Rl datadir "$DIR")
-if [ -n "$FILE" ]
-then
-    # mkdir /data/mysql
+# Locate the configuration file containing 'datadir'
+FILE=$(grep -Rl "^datadir" "$DIR")
+
+if [ -n "$FILE" ]; then
     echo " "
-    echo "Updating $FILE"
+    echo "Updating $FILE to use /data/mysql"
     echo " "
-    sed -i -e '/^datadir/s/\/var\/lib\//\/data\//' $FILE
-    fgrep -R datadir "$DIR"
+    
+    # Update datadir path
+    sed -i -e 's|^datadir\s*=\s*/var/lib/mysql|datadir = /data/mysql|' "$FILE"
+
+    # Verify changes
+    grep -R "^datadir" "$DIR"
 else
     echo " "
-    echo "file not found"
+    echo "MySQL config file with datadir not found"
     echo " "
 fi
 
+# Ensure the data directory exists
+mkdir -p /data/mysql
+
+# Set correct ownership
+chown -R mysql:mysql /data/mysql
